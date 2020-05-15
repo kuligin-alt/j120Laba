@@ -14,8 +14,14 @@ import ru.avalon.java.dev.j120.laboratory.entity.Order;
 public class OrderIO {
     private static final String FILENAME = "order.dat";
     
+    public void copyOrder() {
+        
+        Order orderLoad = readOrder(FILENAME);
+        System.out.println(orderLoad.toString());
+        
+    }
     
-    private void saveOrder(Order order) {
+    public void saveOrder(Order order) {
         try (ObjectOutputStream out = 
                 new ObjectOutputStream(
                         new BufferedOutputStream(
