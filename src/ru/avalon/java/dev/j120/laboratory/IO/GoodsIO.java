@@ -9,6 +9,7 @@ public class GoodsIO {
     
     public byte[] goodsIO() throws FileNotFoundException, IOException {
         
+        // Чтение файла со списком товаров:
         FileInputStream stream = new FileInputStream("reassesment.csv");
         
         int lehgth = stream.available();

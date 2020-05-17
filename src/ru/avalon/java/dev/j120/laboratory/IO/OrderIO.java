@@ -14,10 +14,12 @@ import ru.avalon.java.dev.j120.laboratory.entity.Order;
 public class OrderIO {
     private static final String FILENAME = "order.dat";
     
-    public void copyOrder() {
+    
+    public Order copyOrder() {
         
         Order orderLoad = readOrder(FILENAME);
-        System.out.println(orderLoad.toString());
+        return orderLoad;
+        //System.out.println(orderLoad.toString());
         
     }
     
@@ -49,6 +51,7 @@ public class OrderIO {
                
         } catch (IOException | ClassNotFoundException ex) {
             ex.printStackTrace();
+            
         }
         
         return null;

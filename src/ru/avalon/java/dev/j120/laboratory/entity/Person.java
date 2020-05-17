@@ -42,11 +42,9 @@ public class Person implements Serializable {
 
     @Override
     public String toString() {
-        return "Person{" + "contactPerson=" + contactPerson + 
-                ", deliveryAddress=" + deliveryAddress + 
-                ", phoneNumber=" + phoneNumber + 
-                ", discount=" + discount + '}';
+        return (" Контактное лицо: " + contactPerson +
+                " Адресс доставки: " + deliveryAddress +
+                " Контактный телефон: " + phoneNumber +
+                " Процент скидки: " + discount);
     }
-    
-    
 }
