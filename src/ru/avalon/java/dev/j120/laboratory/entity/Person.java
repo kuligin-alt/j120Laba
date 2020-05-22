@@ -7,13 +7,11 @@ public class Person implements Serializable {
     private String contactPerson;
     private String deliveryAddress;
     private String phoneNumber;
-    private Integer discount;
 
-    public Person(String contactPerson, String deliveryAddress, String phoneNumber, int discount) {
+    public Person(String contactPerson, String deliveryAddress, String phoneNumber) {
         this.contactPerson = contactPerson;
         this.deliveryAddress = deliveryAddress;
         this.phoneNumber = phoneNumber;
-        this.discount = discount;
     }
 
     public String getContactPerson() {
@@ -44,7 +42,6 @@ public class Person implements Serializable {
     public String toString() {
         return (" Контактное лицо: " + contactPerson +
                 " Адресс доставки: " + deliveryAddress +
-                " Контактный телефон: " + phoneNumber +
-                " Процент скидки: " + discount);
+                " Контактный телефон: " + phoneNumber);
     }
 }
