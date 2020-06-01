@@ -4,22 +4,26 @@ package ru.avalon.java.dev.j120.laboratory.entity;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.Objects;
 
 public class Order implements Serializable {
     private LocalDate creationDateOrder;            // дата создания заказа
     private Person contactPerson;                   // контактное лицо
     private String orderStatus;                     // статус заказа (готовится, отгружен, отменен)
-    private ArrayList<OrderProduct> goodsPosition;  // список позиций товара (товар, количество, цена)
+    private LinkedHashSet<OrderProduct> goodsPosition;  // список позиций товара (товар, количество, цена)
     private int discount;                           // скидка
+    
 
-    public Order(LocalDate creationDateOrder, Person contactPerson, String orderStatus, ArrayList<OrderProduct> goodsPosition, int discount) {
+    public Order(LocalDate creationDateOrder, Person contactPerson, String orderStatus, LinkedHashSet<OrderProduct> goodsPosition, int discount) {
         this.creationDateOrder = creationDateOrder;
         this.contactPerson = contactPerson;
         this.orderStatus = orderStatus;
         this.goodsPosition = goodsPosition;
         this.discount = discount;
     }
+    
+    
 
     public LocalDate getCreationDateOrder() {
         return creationDateOrder;

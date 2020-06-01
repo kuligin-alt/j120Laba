@@ -23,6 +23,13 @@ public class OrderProduct implements Serializable  {   // Строка зака�
     public OrderProduct(String nameOrderProduct) {
         this.nameOrderProduct = nameOrderProduct;
     }
+
+    public void setPriceOrderProduct(int discount) {
+        BigDecimal a = this.priceOrderProduct.divide(BigDecimal.valueOf(100));
+        this.priceOrderProduct = a.multiply(BigDecimal.valueOf(100-discount));
+    }
+
+    
     
     
 

@@ -1,16 +1,42 @@
-
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package ru.avalon.java.dev.j120.laboratory.UI;
 
-
 import java.io.IOException;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.LinkedHashSet;
+import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import ru.avalon.java.dev.j120.laboratory.Application;
+import javax.swing.JList;
+import javax.swing.ListSelectionModel;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import static ru.avalon.java.dev.j120.laboratory.Application.createGoodList;
+import ru.avalon.java.dev.j120.laboratory.IO.GoodListIO;
+import ru.avalon.java.dev.j120.laboratory.IO.OrderIO;
+import ru.avalon.java.dev.j120.laboratory.IO.OrderListIO;
+import ru.avalon.java.dev.j120.laboratory.IO.OrderProducListIO;
+import ru.avalon.java.dev.j120.laboratory.entity.Order;
+import ru.avalon.java.dev.j120.laboratory.entity.OrderProduct;
+import ru.avalon.java.dev.j120.laboratory.entity.OrderStatus;
+import ru.avalon.java.dev.j120.laboratory.entity.Person;
 
+import ru.avalon.java.dev.j120.laboratory.entity.Product;
 
+/**
+ *
+ * @author buzzz
+ */
 public class NewJFrame extends javax.swing.JFrame {
 
-    
+    /**
+     * Creates new form NewJFrame
+     */
     public NewJFrame() {
         initComponents();
     }
@@ -24,37 +50,113 @@ public class NewJFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jInternalFrame1 = new javax.swing.JInternalFrame();
+        jLabel1 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
-
-        jInternalFrame1.setVisible(true);
-
-        javax.swing.GroupLayout jInternalFrame1Layout = new javax.swing.GroupLayout(jInternalFrame1.getContentPane());
-        jInternalFrame1.getContentPane().setLayout(jInternalFrame1Layout);
-        jInternalFrame1Layout.setHorizontalGroup(
-            jInternalFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-        jInternalFrame1Layout.setVerticalGroup(
-            jInternalFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
+        jButton3 = new javax.swing.JButton();
+        jButton4 = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jList1 = new javax.swing.JList<>();
+        jLabel3 = new javax.swing.JLabel();
+        jTextField1 = new javax.swing.JTextField();
+        jButton5 = new javax.swing.JButton();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        jTextField2 = new javax.swing.JTextField();
+        jTextField3 = new javax.swing.JTextField();
+        jTextField4 = new javax.swing.JTextField();
+        jTextField5 = new javax.swing.JTextField();
+        jSeparator1 = new javax.swing.JSeparator();
+        jButton6 = new javax.swing.JButton();
+        jButton9 = new javax.swing.JButton();
+        jButton10 = new javax.swing.JButton();
+        jSeparator2 = new javax.swing.JSeparator();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jButton1.setText("Сформировать заявку");
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel1.setText("Программа по управлению заказами магазина");
+
+        jButton1.setText("Обновить склад");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
             }
         });
 
-        jButton2.setText("Просмотреть заявки");
+        jButton2.setText("Смотреть список товаров");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        jLabel1.setText("Добро пожаловать в магазин!");
+        jButton3.setText("Смотреть все заказы");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+
+        jButton4.setText("Отгрузить заказ");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
+
+        jScrollPane1.setViewportView(jList1);
+
+        jLabel3.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel3.setText("Ввод количества товара:");
+
+        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField1ActionPerformed(evt);
+            }
+        });
+
+        jButton5.setText("Добавить выбранный товар в заказ");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
+
+        jLabel4.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel4.setText("Имя заказчика:");
+
+        jLabel5.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel5.setText("Адрес доставки:");
+
+        jLabel6.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel6.setText("Номер телефона заказчика:");
+
+        jLabel7.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel7.setText("Скидка %:");
+
+        jButton6.setText("Сформировать заказ");
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
+
+        jButton9.setText("Отменить заказ");
+        jButton9.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton9ActionPerformed(evt);
+            }
+        });
+
+        jButton10.setText("Удалить заказ");
+        jButton10.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton10ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -63,46 +165,345 @@ public class NewJFrame extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(54, 54, 54)
-                .addComponent(jLabel1)
-                .addContainerGap(212, Short.MAX_VALUE))
+                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 191, Short.MAX_VALUE)
+                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jSeparator2)
+                    .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(jButton10, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton9, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1)
+                    .addComponent(jSeparator1)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(26, 26, 26)
+                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jButton5)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(1, 1, 1)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jTextField3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(jTextField2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                                .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                    .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 860, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGap(0, 17, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(24, 24, 24)
+                .addContainerGap()
                 .addComponent(jLabel1)
                 .addGap(18, 18, 18)
-                .addComponent(jButton1)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jButton1)
+                        .addGap(11, 11, 11)
+                        .addComponent(jButton2)
+                        .addGap(25, 25, 25)
+                        .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jButton3)
+                        .addGap(9, 9, 9)
+                        .addComponent(jButton4)
+                        .addGap(8, 8, 8)
+                        .addComponent(jButton9)
+                        .addGap(8, 8, 8)
+                        .addComponent(jButton10))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(jButton2)
-                .addContainerGap(336, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextField1))
+                .addGap(18, 18, 18)
+                .addComponent(jButton5)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
+                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel6)
+                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel7)
+                    .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(jButton6)
+                .addContainerGap())
         );
+
+        jLabel7.getAccessibleContext().setAccessibleName("Скидка %:");
+        jLabel7.getAccessibleContext().setAccessibleDescription("");
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    // Кнопка "Обновить склад":
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-        if(evt.getActionCommand().equals("Сформировать заявку")) {
-            try {
-                Application.createOrder();
-            } catch (IOException ex) {
-                Logger.getLogger(NewJFrame.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        } 
+        try {
+            createGoodList(); // Создает коллекцию good типа <Product> и добавляет в нее товары из файла
+        } catch (IOException ex) {
+            Logger.getLogger(NewJFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        jList1.setModel(new javax.swing.AbstractListModel<String>() {
+            String[] strings = jFArrayList(); // Метод jFArrayList() возвращает коллекцию товаров в вид массива
+            public int getSize() { return strings.length; }
+            public String getElementAt(int i) { return strings[i]; }
+        });
+        
+        jLabel1.setText("Список товаров обновлен");
+        
     }//GEN-LAST:event_jButton1ActionPerformed
-
     
-   
+    // Кнопка "Смотреть список товаров":
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // Загрузка коллекции товаров:
+        
+        jList1.setModel(new javax.swing.AbstractListModel<String>() {
+            String[] strings = jFArrayList(); // Метод jFArrayList() возвращает коллекцию товаров в вид массива
+            public int getSize() { return strings.length; }
+            public String getElementAt(int i) { return strings[i]; }
+        });
+        
+        jLabel1.setText("Что бы сформировать заказ выбирите товар из списка, введите количество и данные заказчика");
+        /*   
+        jList1.addListSelectionListener(new ListSelectionListener() {
+            public void valueChanged(ListSelectionEvent le) {
+                int idx = jList1.getSelectedIndex();
+                    
+                if(idx != -1) {
+                    jLabel2.setText(jFArrayList()[idx]); // Отобразить результат выбора, если элемент был выбран
+                    
+                        
+                } else {
+                    jLabel2.setText("Please choose a name"); // Иначе еще раз предложить сделать выбор
+                }
+                
+                
+            }
+        });
+        */
+        
+    }//GEN-LAST:event_jButton2ActionPerformed
 
+    // Кнопка "Добавить выбранный товар в заказ":
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
     
+        // Создание списка товаров в заказе:
+        //LinkedHashSet<OrderProduct> orderProduct = new LinkedHashSet<>();
+        
+        // Загрузка списка выбранных товаров:
+        OrderProducListIO loadorderProducListIO = new OrderProducListIO();
+        LinkedHashSet<OrderProduct> orderProduct = loadorderProducListIO.copyOrderList();
+        
+        // Загрузка коллекции товаров:
+        GoodListIO goodlistIO = new GoodListIO();
+        ArrayList<Product> goodList = goodlistIO.copyGood();
+        
+        int quanitiGood;
+        
+        int id = jList1.getSelectedIndex();
+        
+        quanitiGood = (Integer.parseInt(jTextField1.getText()));
+        
+        if (goodList.get(id).setStockBalance(quanitiGood)) {
+            jLabel1.setText("Недостаточное количество товара на складе, введите другое количество");
+        } else {
+        
+        // Добавление в строку заказа данных о товаре:
+        if (orderProduct.contains(new OrderProduct(goodList.get(id).getArticleNumber(),
+            goodList.get(id).getName(), goodList.get(id).getColor(), quanitiGood,
+            goodList.get(id).getPrice()))) {
+                jLabel1.setText("Такой товар уже есть в заявке, выберете другой товар");
+            } else {
+            
+                orderProduct.add(new OrderProduct(goodList.get(id).getArticleNumber(),
+                goodList.get(id).getName(), goodList.get(id).getColor(), quanitiGood,
+                goodList.get(id).getPrice()));
+                
+                // Сохранение коллекции товаров:
+                GoodListIO savegoodlistIO = new GoodListIO();
+                savegoodlistIO.saveGoodList(goodList);
+        
+                // Сохранение списка выбранных товаров:
+                OrderProducListIO saveorderProducListIO = new OrderProducListIO();
+                saveorderProducListIO.saveOrderProductList(orderProduct);
+        
+                jLabel1.setText("Товар добавлен, выбирите еще товары, либо продолжайте заполнять контактные данные ");
+            
+            }
+        }
+    }//GEN-LAST:event_jButton5ActionPerformed
+    
+    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField1ActionPerformed
+
+    // Кнопка "Сформировать заказ":
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        
+        
+        
+        // Загрузка коллекции сохраненных заявок из файла:
+        OrderListIO orderListIO = new OrderListIO();
+        ArrayList<Order> copyOrderList = orderListIO.copyOrderList();
+        
+        
+        
+        // Загрузка списка выбранных товаров:
+        OrderProducListIO loadorderProducListIO = new OrderProducListIO();
+        LinkedHashSet<OrderProduct> orderProduct = loadorderProducListIO.copyOrderList();
+        
+       
+        if ("[]".equals(orderProduct.toString())) {
+            jLabel1.setText("!!! В заказе отсутствуют товары. Добавьте товары в заказ"); 
+        } else {
+        
+        String contactPerson = jTextField2.getText();
+        String deliveryAdress = jTextField3.getText();
+        String phoneNumber = jTextField4.getText();
+        int discount = (Integer.parseInt(jTextField5.getText()));
+        
+        
+        
+        Person person = new Person(contactPerson, deliveryAdress, phoneNumber);
+        
+        // Добавление статуса заявки:
+        OrderStatus orderStatus = OrderStatus.PREPARING;
+        String orderstatus = orderStatus.getStatus();
+        
+        // Создание объекта завка:
+        Order order = new Order(LocalDate.now(), person, orderstatus, orderProduct, discount);
+        
+        // Сохранение заявки в файл:
+        OrderIO orderIO = new OrderIO();
+        orderIO.saveOrder(order);  
+        
+        // Добавление заявки в коллекцию заявок:
+        OrderIO orderIO2 = new OrderIO(); 
+        copyOrderList.add(orderIO2.copyOrder());
+                         
+        // Сохранение новой коллекции заявок в файл:
+        //OrderListIO orderListIO = new OrderListIO();
+        orderListIO.saveOrderList(copyOrderList);  
+        
+        orderProduct.clear();
+        
+        // Сохранение списка выбранных товаров:
+        OrderProducListIO saveorderProducListIO = new OrderProducListIO();
+        saveorderProducListIO.saveOrderProductList(orderProduct);
+        
+        jLabel1.setText("Заказ сформирован");
+        }
+    }//GEN-LAST:event_jButton6ActionPerformed
+    
+    // Кнопка "Смотреть все заказы":
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // Загрузка коллекции сохраненных заявок из файла:
+        OrderListIO orderListIO2 = new OrderListIO();
+        ArrayList<Order> copyOrderList2 = orderListIO2.copyOrderList();
+        
+        // Проверка наличия заявок в коллекции и вывод ее в консоль:
+        if ("[]".equals(copyOrderList2.toString())) {
+            jLabel1.setText("Заказов нет");
+        } else {
+            
+            jList1.setModel(new javax.swing.AbstractListModel<String>() {
+            String[] strings = jFArrayOrdertList();
+            public int getSize() { return strings.length; }
+            public String getElementAt(int i) { return strings[i]; }
+            });                              
+        } 
+    }//GEN-LAST:event_jButton3ActionPerformed
+    
+    // Кнопка "Отгрузить заказ":
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        
+        // Загрузка коллекции сохраненных заявок из файла:
+        OrderListIO orderListIO2 = new OrderListIO();
+        ArrayList<Order> copyOrderList2 = orderListIO2.copyOrderList();
+        
+        int id = jList1.getSelectedIndex();
+        
+        OrderStatus orderStatusRed = OrderStatus.SHIPPED;
+        String orderstatus = orderStatusRed.getStatus();
+        copyOrderList2.get(id).setOrderStatus(orderstatus);
+        
+        // Сохранение новой коллекции заявок в файл:
+        OrderListIO orderListIO6 = new OrderListIO();
+        orderListIO6.saveOrderList(copyOrderList2);  
+        
+        jLabel1.setText("Выбранный заказ отгружен");
+    }//GEN-LAST:event_jButton4ActionPerformed
+    
+    // Кнопка "Отменить заказ":
+    private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
+        // Загрузка коллекции сохраненных заявок из файла:
+        OrderListIO orderListIO2 = new OrderListIO();
+        ArrayList<Order> copyOrderList2 = orderListIO2.copyOrderList();
+        
+        int id = jList1.getSelectedIndex();
+        
+        OrderStatus orderStatusRed = OrderStatus.CANCELED;
+        String orderstatus = orderStatusRed.getStatus();
+        copyOrderList2.get(id).setOrderStatus(orderstatus);
+        
+        // Сохранение новой коллекции заявок в файл:
+        OrderListIO orderListIO6 = new OrderListIO();
+        orderListIO6.saveOrderList(copyOrderList2);  
+        
+        jLabel1.setText("Выбранный заказ отменен");
+    }//GEN-LAST:event_jButton9ActionPerformed
+    
+    // Кнопка "Удалить заказ":
+    private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
+        // Загрузка коллекции сохраненных заявок из файла:
+        OrderListIO orderListIO2 = new OrderListIO();
+        ArrayList<Order> copyOrderList2 = orderListIO2.copyOrderList();
+        
+        int idx = jList1.getSelectedIndex();
+        
+        if (idx == (-1)) {
+            jLabel1.setText("Выбирите заказ, который должен быть удален");
+        } else {
+            copyOrderList2.remove(idx); // Удаление выбранной заявки из коллекции.
+        
+            // Сохранение новой коллекции заявок в файл:
+            OrderListIO orderListIO4 = new OrderListIO();
+            orderListIO4.saveOrderList(copyOrderList2);  
+        
+            jLabel1.setText("Выбранный заказ удален");
+        }
+    }//GEN-LAST:event_jButton10ActionPerformed
+
     /**
      * @param args the command line arguments
      */
-    public static void mainFrame() {
+    public void main2() {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -125,24 +526,77 @@ public class NewJFrame extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(NewJFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-        
-        
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new NewJFrame().setVisible(true);
-                
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton10;
     private javax.swing.JButton jButton2;
-    private javax.swing.JInternalFrame jInternalFrame1;
+    private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
+    private javax.swing.JButton jButton6;
+    private javax.swing.JButton jButton9;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JList<String> jList1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JSeparator jSeparator2;
+    private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField jTextField2;
+    private javax.swing.JTextField jTextField3;
+    private javax.swing.JTextField jTextField4;
+    private javax.swing.JTextField jTextField5;
     // End of variables declaration//GEN-END:variables
 
     
+    // Загружает коллекцию товаров, преобразует ее в строковый массив и возвращает:
+    public static String[] jFArrayList() {
+        // Загрузка коллекции товаров:
+        GoodListIO goodlistIO7 = new GoodListIO();
+        ArrayList<Product> goodList7 = goodlistIO7.copyGood();
+    
+        // Создание коллекции строк и перевод элементов из коллекции товаров в коллекцию строк:
+        ArrayList<String> goodListStr = new ArrayList();
+    
+        for(int i = 0; i < goodList7.size(); i++) {
+            goodListStr.add(goodList7.get(i).toString());
+        }
+        
+        // Преобразование коллекции в массив:
+        String goodListStr2[] = goodListStr.toArray(new String[goodListStr.size()]);
+        return goodListStr2;
+    }
+    
+    // Загружает коллекцию заказов, преобразует ее в строковый массив и возвращает:
+    public static String[] jFArrayOrdertList() {
+        
+        // Загрузка коллекции сохраненных заявок из файла:
+        OrderListIO orderListIO2 = new OrderListIO();
+        ArrayList<Order> copyOrderList2 = orderListIO2.copyOrderList();
+        
+        // Создание коллекции строк и перевод элементов из коллекции товаров в коллекцию строк:
+        ArrayList<String> orderProductsListStr = new ArrayList();
+    
+        for(int i = 0; i < copyOrderList2.size(); i++) {
+            orderProductsListStr.add(copyOrderList2.get(i).toString());
+        }
+        
+        // Преобразование коллекции в массив:
+        String orderListStr2[] = orderProductsListStr.toArray(new String[orderProductsListStr.size()]);
+        return orderListStr2;
+    }
+
 }

@@ -8,19 +8,16 @@ import java.util.Scanner;
 import ru.avalon.java.dev.j120.laboratory.IO.GoodsIO;
 import ru.avalon.java.dev.j120.laboratory.IO.*;
 import ru.avalon.java.dev.j120.laboratory.UI.NewJFrame;
-import ru.avalon.java.dev.j120.laboratory.entity.Product;
-import ru.avalon.java.dev.j120.laboratory.entity.Order;
-import ru.avalon.java.dev.j120.laboratory.entity.OrderProduct;
-import ru.avalon.java.dev.j120.laboratory.entity.OrderStatus;
-import ru.avalon.java.dev.j120.laboratory.entity.Person;
+import ru.avalon.java.dev.j120.laboratory.entity.*;
 
 public class Application {
   
     public static void main(String[] args) throws IOException {
         
-        //NewJFrame frame = new NewJFrame();
-        //frame.mainFrame();
+        NewJFrame newJFrame = new NewJFrame();
+        newJFrame.main2();
         
+        /*
         System.out.println("Добро пожаловать на место диспетчера \"Магазина на диване\"");
         System.out.println("");
         System.out.println("Обновить список товара на складе? (да - y, нет - n)");
@@ -34,6 +31,8 @@ public class Application {
         
         
         ArrayList<Order> orderList = new ArrayList<>(); // Создание коллекции заявок
+        
+       
         
         // Меню управления заявками:
         for(;;) {
@@ -205,7 +204,8 @@ public class Application {
                          }
                          break;         
             }    
-        }     
+        }   */ 
+        
     }
     
     // Создает коллекцию good типа <Product> и добавляет в нее товары из файла:
@@ -233,6 +233,7 @@ public class Application {
         
         
     }   
+    /*
     
     // Формирование заявки:    
     public static void createOrder() throws IOException { 
@@ -346,6 +347,6 @@ public class Application {
         OrderIO orderIO = new OrderIO();
         orderIO.saveOrder(order);  
         
-    }  
+    }  */
     
 }
