@@ -8,34 +8,36 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.ArrayList;
 import ru.avalon.java.dev.j120.laboratory.entity.Order;
+import ru.avalon.java.dev.j120.laboratory.entity.Product;
 
 
-public class OrderIO {
-    private static final String FILENAME = "order.dat";
+public class GoodListIO {
+    private static final String FILENAME = "goodlist.dat";
     
-    public Order copyOrder() {
+    public ArrayList<Product>  copyGood() {
         
-        Order orderLoad = readOrder(FILENAME);
-        return orderLoad;
+        ArrayList<Product> goodLoad = readGoodList(FILENAME);
+        return goodLoad;
         //System.out.println(orderLoad.toString());
         
     }
     
-    public void saveOrder(Order order) {
+    public void saveGoodList(ArrayList<Product> goodList) {
         try (ObjectOutputStream out = 
                 new ObjectOutputStream(
                         new BufferedOutputStream(
                                 new FileOutputStream(FILENAME)))) {
             
-            out.writeObject(order);
+            out.writeObject(goodList);
             
         } catch (IOException ex) {
             ex.printStackTrace();
         }
     }
     
-    private Order readOrder(String filename) {
+    private ArrayList<Product> readGoodList(String filename) {
         if(!filename.endsWith(".dat")) {
             return null;
         }
@@ -45,7 +47,7 @@ public class OrderIO {
                                     new FileInputStream(filename)))) {
             
             
-            return (Order) in.readObject();
+            return (ArrayList<Product>) in.readObject();
             
                
         } catch (IOException | ClassNotFoundException ex) {

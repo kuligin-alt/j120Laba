@@ -1,8 +1,9 @@
 
 package ru.avalon.java.dev.j120.laboratory.entity;
 
+import java.io.Serializable;
 
-public class Person {
+public class Person implements Serializable {
     private String contactPerson;
     private String deliveryAddress;
     private String phoneNumber;
@@ -35,5 +36,12 @@ public class Person {
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
-    }  
+    } 
+
+    @Override
+    public String toString() {
+        return (" Контактное лицо: " + contactPerson +
+                " Адресс доставки: " + deliveryAddress +
+                " Контактный телефон: " + phoneNumber);
+    }
 }

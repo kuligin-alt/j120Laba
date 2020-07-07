@@ -8,34 +8,33 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import ru.avalon.java.dev.j120.laboratory.entity.Order;
+import java.util.ArrayList;
+import java.util.LinkedHashSet;
+import ru.avalon.java.dev.j120.laboratory.entity.OrderProduct;
 
-
-public class OrderIO {
-    private static final String FILENAME = "order.dat";
+public class OrderProducListIO {
+    private static final String FILENAME = "orderProductlist.dat";
     
-    public Order copyOrder() {
+    public LinkedHashSet<OrderProduct> copyOrderList() {
         
-        Order orderLoad = readOrder(FILENAME);
-        return orderLoad;
-        //System.out.println(orderLoad.toString());
-        
+        LinkedHashSet<OrderProduct> orderProductListLoad = readOrderProductList(FILENAME);
+        return orderProductListLoad;
     }
     
-    public void saveOrder(Order order) {
+    public void saveOrderProductList(LinkedHashSet<OrderProduct> orderProductList) {
         try (ObjectOutputStream out = 
                 new ObjectOutputStream(
                         new BufferedOutputStream(
                                 new FileOutputStream(FILENAME)))) {
             
-            out.writeObject(order);
+            out.writeObject(orderProductList);
             
         } catch (IOException ex) {
             ex.printStackTrace();
         }
     }
     
-    private Order readOrder(String filename) {
+    private  LinkedHashSet<OrderProduct> readOrderProductList(String filename) {
         if(!filename.endsWith(".dat")) {
             return null;
         }
@@ -45,7 +44,7 @@ public class OrderIO {
                                     new FileInputStream(filename)))) {
             
             
-            return (Order) in.readObject();
+            return ( LinkedHashSet<OrderProduct>) in.readObject();
             
                
         } catch (IOException | ClassNotFoundException ex) {
