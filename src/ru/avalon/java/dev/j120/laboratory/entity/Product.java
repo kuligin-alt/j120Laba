@@ -24,14 +24,26 @@ public class Product implements Serializable {
         return articleNumber;
     }
 
+    public void setArticleNumber(Long articleNumber) {
+        this.articleNumber = articleNumber;
+    }
+
     public String getName() {
         return name;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+    
     public String getColor() {
         return color;
     }
 
+    public void setColor(String color) {
+        this.color = color;
+    }
+    
     public BigDecimal getPrice() {
         return price;
     }
@@ -39,9 +51,13 @@ public class Product implements Serializable {
     public void setPrice(BigDecimal price) {
         this.price = price;
     }
-
+    
     public int getStockBalance() {
         return stockBalance;
+    }
+    
+    public void setStockBalance0(int stockBalance0) {
+        this.stockBalance = stockBalance0;
     }
 
     public boolean setStockBalance(int orderBalance) {

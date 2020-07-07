@@ -8,6 +8,7 @@ package ru.avalon.java.dev.j120.laboratory.UI;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.Scanner;
 import java.util.logging.Level;
@@ -16,7 +17,17 @@ import javax.swing.JList;
 import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import ru.avalon.java.dev.j120.laboratory.Application;
 import static ru.avalon.java.dev.j120.laboratory.Application.createGoodList;
+import ru.avalon.java.dev.j120.laboratory.Dao.OrderProductDao;
+import ru.avalon.java.dev.j120.laboratory.Dao.OrderProductDatabaseDao;
+import ru.avalon.java.dev.j120.laboratory.Dao.PersonDatabaseDao;
+//import static ru.avalon.java.dev.j120.laboratory.Application.good;
+//import static ru.avalon.java.dev.j120.laboratory.Application.order;
+//import static ru.avalon.java.dev.j120.laboratory.Application.orderProductList;
+//import static ru.avalon.java.dev.j120.laboratory.Application.productLoad;
+import ru.avalon.java.dev.j120.laboratory.Dao.ProductDao;
+import ru.avalon.java.dev.j120.laboratory.Dao.ProductDatabaseDao;
 import ru.avalon.java.dev.j120.laboratory.IO.GoodListIO;
 import ru.avalon.java.dev.j120.laboratory.IO.OrderIO;
 import ru.avalon.java.dev.j120.laboratory.IO.OrderListIO;
@@ -25,7 +36,6 @@ import ru.avalon.java.dev.j120.laboratory.entity.Order;
 import ru.avalon.java.dev.j120.laboratory.entity.OrderProduct;
 import ru.avalon.java.dev.j120.laboratory.entity.OrderStatus;
 import ru.avalon.java.dev.j120.laboratory.entity.Person;
-
 import ru.avalon.java.dev.j120.laboratory.entity.Product;
 
 /**
@@ -33,6 +43,9 @@ import ru.avalon.java.dev.j120.laboratory.entity.Product;
  * @author buzzz
  */
 public class NewJFrame extends javax.swing.JFrame {
+    ArrayList<Product> products;
+    LinkedHashSet<OrderProduct> orderProduct = new LinkedHashSet<OrderProduct>();
+    ArrayList<Order> orders = new ArrayList<Order>();
 
     /**
      * Creates new form NewJFrame
@@ -264,11 +277,7 @@ public class NewJFrame extends javax.swing.JFrame {
 
     // Кнопка "Обновить склад":
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        try {
-            createGoodList(); // Создает коллекцию good типа <Product> и добавляет в нее товары из файла
-        } catch (IOException ex) {
-            Logger.getLogger(NewJFrame.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        
         jList1.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = jFArrayList(); // Метод jFArrayList() возвращает коллекцию товаров в вид массива
             public int getSize() { return strings.length; }
@@ -281,82 +290,61 @@ public class NewJFrame extends javax.swing.JFrame {
     
     // Кнопка "Смотреть список товаров":
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // Загрузка коллекции товаров:
+        
+        jArrayList();
+        
+        if (jArrayList() == null) return;
         
         jList1.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = jFArrayList(); // Метод jFArrayList() возвращает коллекцию товаров в вид массива
+            String[] strings = jArrayList(); // Метод jFArrayList() возвращает коллекцию товаров в виде массива
             public int getSize() { return strings.length; }
             public String getElementAt(int i) { return strings[i]; }
         });
         
         jLabel1.setText("Что бы сформировать заказ выбирите товар из списка, введите количество и данные заказчика");
-        /*   
-        jList1.addListSelectionListener(new ListSelectionListener() {
-            public void valueChanged(ListSelectionEvent le) {
-                int idx = jList1.getSelectedIndex();
-                    
-                if(idx != -1) {
-                    jLabel2.setText(jFArrayList()[idx]); // Отобразить результат выбора, если элемент был выбран
-                    
-                        
-                } else {
-                    jLabel2.setText("Please choose a name"); // Иначе еще раз предложить сделать выбор
-                }
-                
-                
-            }
-        });
-        */
         
     }//GEN-LAST:event_jButton2ActionPerformed
-
+  
     // Кнопка "Добавить выбранный товар в заказ":
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-    
-        // Создание списка товаров в заказе:
-        //LinkedHashSet<OrderProduct> orderProduct = new LinkedHashSet<>();
+
+        int quanitiGood;  // Количество выбранного товара
         
-        // Загрузка списка выбранных товаров:
-        OrderProducListIO loadorderProducListIO = new OrderProducListIO();
-        LinkedHashSet<OrderProduct> orderProduct = loadorderProducListIO.copyOrderList();
-        
-        // Загрузка коллекции товаров:
-        GoodListIO goodlistIO = new GoodListIO();
-        ArrayList<Product> goodList = goodlistIO.copyGood();
-        
-        int quanitiGood;
-        
-        int id = jList1.getSelectedIndex();
+        int id = jList1.getSelectedIndex(); // Индекс выбранного товара
         
         quanitiGood = (Integer.parseInt(jTextField1.getText()));
         
-        if (goodList.get(id).setStockBalance(quanitiGood)) {
+        if (products.get(id).setStockBalance(quanitiGood)) {
             jLabel1.setText("Недостаточное количество товара на складе, введите другое количество");
+            
         } else {
-        
-        // Добавление в строку заказа данных о товаре:
-        if (orderProduct.contains(new OrderProduct(goodList.get(id).getArticleNumber(),
-            goodList.get(id).getName(), goodList.get(id).getColor(), quanitiGood,
-            goodList.get(id).getPrice()))) {
-                jLabel1.setText("Такой товар уже есть в заявке, выберете другой товар");
+            
+            // Добавление в строку заказа данных о товаре:
+            if (orderProduct.contains(new OrderProduct(products.get(id).getArticleNumber(),
+            products.get(id).getName(), products.get(id).getColor(), quanitiGood,
+            products.get(id).getPrice()))) {
+            jLabel1.setText("Такой товар уже есть в заявке, выберете другой товар");
+                
             } else {
             
-                orderProduct.add(new OrderProduct(goodList.get(id).getArticleNumber(),
-                goodList.get(id).getName(), goodList.get(id).getColor(), quanitiGood,
-                goodList.get(id).getPrice()));
+                orderProduct.add(new OrderProduct(products.get(id).getArticleNumber(),
+                products.get(id).getName(), products.get(id).getColor(), quanitiGood,
+                products.get(id).getPrice()));
                 
-                // Сохранение коллекции товаров:
-                GoodListIO savegoodlistIO = new GoodListIO();
-                savegoodlistIO.saveGoodList(goodList);
-        
-                // Сохранение списка выбранных товаров:
-                OrderProducListIO saveorderProducListIO = new OrderProducListIO();
-                saveorderProducListIO.saveOrderProductList(orderProduct);
-        
+                // Сохранение списка заказанных товаров в БД
+                OrderProductDatabaseDao orderProductDao = new OrderProductDatabaseDao();
+                OrderProduct newOrderProduct = orderProductDao.findById(products.get(id).getArticleNumber());
+                newOrderProduct = new OrderProduct(products.get(id).getArticleNumber(),
+                products.get(id).getName(), products.get(id).getColor(), quanitiGood,
+                products.get(id).getPrice());
+                orderProductDao.save(newOrderProduct);
+                
+                
+                
                 jLabel1.setText("Товар добавлен, выбирите еще товары, либо продолжайте заполнять контактные данные ");
             
             }
-        }
+        }     
     }//GEN-LAST:event_jButton5ActionPerformed
     
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
@@ -366,19 +354,6 @@ public class NewJFrame extends javax.swing.JFrame {
     // Кнопка "Сформировать заказ":
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         
-        
-        
-        // Загрузка коллекции сохраненных заявок из файла:
-        OrderListIO orderListIO = new OrderListIO();
-        ArrayList<Order> copyOrderList = orderListIO.copyOrderList();
-        
-        
-        
-        // Загрузка списка выбранных товаров:
-        OrderProducListIO loadorderProducListIO = new OrderProducListIO();
-        LinkedHashSet<OrderProduct> orderProduct = loadorderProducListIO.copyOrderList();
-        
-       
         if ("[]".equals(orderProduct.toString())) {
             jLabel1.setText("!!! В заказе отсутствуют товары. Добавьте товары в заказ"); 
         } else {
@@ -386,11 +361,20 @@ public class NewJFrame extends javax.swing.JFrame {
         String contactPerson = jTextField2.getText();
         String deliveryAdress = jTextField3.getText();
         String phoneNumber = jTextField4.getText();
-        int discount = (Integer.parseInt(jTextField5.getText()));
-        
-        
+        int discount;
+        if ("".equals(jTextField5.getText())) {
+            discount = 0;
+        } else {
+            discount = (Integer.parseInt(jTextField5.getText()));
+        }
         
         Person person = new Person(contactPerson, deliveryAdress, phoneNumber);
+        
+        // Сохранение Person в БД
+        PersonDatabaseDao personDao = new PersonDatabaseDao();
+        Person newPerson = personDao.findById(1);
+        newPerson = new Person(contactPerson, deliveryAdress, phoneNumber);
+        personDao.save(newPerson);
         
         // Добавление статуса заявки:
         OrderStatus orderStatus = OrderStatus.PREPARING;
@@ -399,23 +383,7 @@ public class NewJFrame extends javax.swing.JFrame {
         // Создание объекта завка:
         Order order = new Order(LocalDate.now(), person, orderstatus, orderProduct, discount);
         
-        // Сохранение заявки в файл:
-        OrderIO orderIO = new OrderIO();
-        orderIO.saveOrder(order);  
-        
-        // Добавление заявки в коллекцию заявок:
-        OrderIO orderIO2 = new OrderIO(); 
-        copyOrderList.add(orderIO2.copyOrder());
-                         
-        // Сохранение новой коллекции заявок в файл:
-        //OrderListIO orderListIO = new OrderListIO();
-        orderListIO.saveOrderList(copyOrderList);  
-        
-        orderProduct.clear();
-        
-        // Сохранение списка выбранных товаров:
-        OrderProducListIO saveorderProducListIO = new OrderProducListIO();
-        saveorderProducListIO.saveOrderProductList(orderProduct);
+        orders.add(order);
         
         jLabel1.setText("Заказ сформирован");
         }
@@ -423,12 +391,8 @@ public class NewJFrame extends javax.swing.JFrame {
     
     // Кнопка "Смотреть все заказы":
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        // Загрузка коллекции сохраненных заявок из файла:
-        OrderListIO orderListIO2 = new OrderListIO();
-        ArrayList<Order> copyOrderList2 = orderListIO2.copyOrderList();
         
-        // Проверка наличия заявок в коллекции и вывод ее в консоль:
-        if ("[]".equals(copyOrderList2.toString())) {
+        if ("[]".equals(orders.toString())) {
             jLabel1.setText("Заказов нет");
         } else {
             
@@ -443,58 +407,48 @@ public class NewJFrame extends javax.swing.JFrame {
     // Кнопка "Отгрузить заказ":
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         
-        // Загрузка коллекции сохраненных заявок из файла:
-        OrderListIO orderListIO2 = new OrderListIO();
-        ArrayList<Order> copyOrderList2 = orderListIO2.copyOrderList();
-        
         int id = jList1.getSelectedIndex();
         
-        OrderStatus orderStatusRed = OrderStatus.SHIPPED;
-        String orderstatus = orderStatusRed.getStatus();
-        copyOrderList2.get(id).setOrderStatus(orderstatus);
+        if (id == (-1)) {
+            jLabel1.setText("Выбирите заказ, который должен быть отгружен");
+        } else {
         
-        // Сохранение новой коллекции заявок в файл:
-        OrderListIO orderListIO6 = new OrderListIO();
-        orderListIO6.saveOrderList(copyOrderList2);  
+            OrderStatus orderStatusRed = OrderStatus.SHIPPED;
+            String orderstatus = orderStatusRed.getStatus();
+            orders.get(id).setOrderStatus(orderstatus);
         
-        jLabel1.setText("Выбранный заказ отгружен");
+            jLabel1.setText("Выбранный заказ отгружен");
+        }
     }//GEN-LAST:event_jButton4ActionPerformed
     
     // Кнопка "Отменить заказ":
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
-        // Загрузка коллекции сохраненных заявок из файла:
-        OrderListIO orderListIO2 = new OrderListIO();
-        ArrayList<Order> copyOrderList2 = orderListIO2.copyOrderList();
-        
+
         int id = jList1.getSelectedIndex();
         
-        OrderStatus orderStatusRed = OrderStatus.CANCELED;
-        String orderstatus = orderStatusRed.getStatus();
-        copyOrderList2.get(id).setOrderStatus(orderstatus);
+        if (id == (-1)) {
+            jLabel1.setText("Выбирите заказ, который должен быть отменен");
+        } else {
         
-        // Сохранение новой коллекции заявок в файл:
-        OrderListIO orderListIO6 = new OrderListIO();
-        orderListIO6.saveOrderList(copyOrderList2);  
+            OrderStatus orderStatusRed = OrderStatus.CANCELED;
+            String orderstatus = orderStatusRed.getStatus();
+            orders.get(id).setOrderStatus(orderstatus); 
         
-        jLabel1.setText("Выбранный заказ отменен");
+            jLabel1.setText("Выбранный заказ отменен");
+        }
     }//GEN-LAST:event_jButton9ActionPerformed
     
     // Кнопка "Удалить заказ":
     private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
-        // Загрузка коллекции сохраненных заявок из файла:
-        OrderListIO orderListIO2 = new OrderListIO();
-        ArrayList<Order> copyOrderList2 = orderListIO2.copyOrderList();
+        
         
         int idx = jList1.getSelectedIndex();
         
         if (idx == (-1)) {
             jLabel1.setText("Выбирите заказ, который должен быть удален");
         } else {
-            copyOrderList2.remove(idx); // Удаление выбранной заявки из коллекции.
-        
-            // Сохранение новой коллекции заявок в файл:
-            OrderListIO orderListIO4 = new OrderListIO();
-            orderListIO4.saveOrderList(copyOrderList2);  
+            orders.remove(idx); // Удаление выбранной заявки из коллекции.
+          
         
             jLabel1.setText("Выбранный заказ удален");
         }
@@ -562,17 +516,18 @@ public class NewJFrame extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
 
     
-    // Загружает коллекцию товаров, преобразует ее в строковый массив и возвращает:
-    public static String[] jFArrayList() {
-        // Загрузка коллекции товаров:
-        GoodListIO goodlistIO7 = new GoodListIO();
-        ArrayList<Product> goodList7 = goodlistIO7.copyGood();
+    // Загружает коллекцию товаров из БД, преобразует ее в строковый массив и возвращает:
+    public String[] jFArrayList() {
+        
+        // Загрузка коллекции товаров из базы данных:
+        ProductDao productDao = new ProductDatabaseDao();
+        products = (ArrayList<Product>) productDao.findAll();
     
         // Создание коллекции строк и перевод элементов из коллекции товаров в коллекцию строк:
         ArrayList<String> goodListStr = new ArrayList();
-    
-        for(int i = 0; i < goodList7.size(); i++) {
-            goodListStr.add(goodList7.get(i).toString());
+        
+        for(int i = 0; i < products.size(); i++) {
+            goodListStr.add(products.get(i).toString());
         }
         
         // Преобразование коллекции в массив:
@@ -580,23 +535,38 @@ public class NewJFrame extends javax.swing.JFrame {
         return goodListStr2;
     }
     
-    // Загружает коллекцию заказов, преобразует ее в строковый массив и возвращает:
-    public static String[] jFArrayOrdertList() {
-        
-        // Загрузка коллекции сохраненных заявок из файла:
-        OrderListIO orderListIO2 = new OrderListIO();
-        ArrayList<Order> copyOrderList2 = orderListIO2.copyOrderList();
+    // Преобразует коллекцию заказов в строковый массив и возвращает:
+    public String[] jFArrayOrdertList() {
         
         // Создание коллекции строк и перевод элементов из коллекции товаров в коллекцию строк:
         ArrayList<String> orderProductsListStr = new ArrayList();
-    
-        for(int i = 0; i < copyOrderList2.size(); i++) {
-            orderProductsListStr.add(copyOrderList2.get(i).toString());
+        
+        for(int i = 0; i < orders.size(); i++) {
+            orderProductsListStr.add(orders.get(i).toString());
         }
         
         // Преобразование коллекции в массив:
         String orderListStr2[] = orderProductsListStr.toArray(new String[orderProductsListStr.size()]);
         return orderListStr2;
     }
-
+    
+    // Преобразует коллекцию товаров в строковый массив и возвращает:
+    public String[] jArrayList() {
+        // Создание коллекции строк и перевод элементов из коллекции товаров в коллекцию строк:
+        ArrayList<String> goodListSt = new ArrayList();
+        
+        if (products == null) {
+            jLabel1.setText("Список товаров пуст, нажмите кнопку \"Обновить склад\"");
+        } else {
+            for(int i = 0; i < products.size(); i++) {
+                goodListSt.add(products.get(i).toString());
+            }
+            
+            // Преобразование коллекции в массив:
+            String goodListStr2[] = goodListSt.toArray(new String[goodListSt.size()]);
+            return goodListStr2;
+        }
+        
+        return null;
+    }
 }

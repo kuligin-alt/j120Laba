@@ -6,6 +6,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.Objects;
+import ru.avalon.java.dev.j120.laboratory.IO.Configuration;
 
 public class Order implements Serializable {
     private LocalDate creationDateOrder;            // дата создания заказа
@@ -20,7 +21,8 @@ public class Order implements Serializable {
         this.contactPerson = contactPerson;
         this.orderStatus = orderStatus;
         this.goodsPosition = goodsPosition;
-        this.discount = discount;
+        //this.discount = discount;
+        setDiscount(discount);
     }
     
     
@@ -40,6 +42,19 @@ public class Order implements Serializable {
     public void setOrderStatus(String orderStatus) {
         this.orderStatus = orderStatus;
     }
+
+    public void setDiscount(int discount) {
+        Configuration properties = Configuration.getInstance();
+        int propertDiscount = Integer.parseInt(properties.getProperties().getProperty("discount"));
+        
+        if ((discount > 0) && (discount < propertDiscount)) {
+            this.discount = discount;
+        } else {
+            this.discount = propertDiscount;
+        }
+    }
+    
+    
 
     //public ArrayList<OrderProduct> getGoodsPosition() {
     //    return goodsPosition;
